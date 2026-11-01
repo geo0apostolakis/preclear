@@ -1,0 +1,206 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #05070a;
+  --bg-2: #070b11;
+  --surface: rgba(255, 255, 255, 0.045);
+  --surface-2: rgba(255, 255, 255, 0.075);
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.16);
+
+  --accent: #38bdf8;
+  --accent-2: #818cf8;
+  --accent-fg: #04141c;
+
+  --ok: #4ade80;
+  --bad: #fb7185;
+  --warn: #fbbf24;
+
+  --text: #e8eef5;
+  --text-2: #b3c1cf;
+  --muted: #7d8fa0;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-fg: var(--accent-fg);
+  --color-ok: var(--ok);
+  --color-bad: var(--bad);
+  --color-warn: var(--warn);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-muted: var(--muted);
+
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 9rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
+  /* Faint grid, sits under everything */
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(56, 189, 248, 0.13), transparent),
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 100% 100%, 56px 56px, 56px 56px;
+  background-attachment: fixed;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   GLASS
+   -------------------------------------------------------------------------- */
+
+@utility glass {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+
+@utility glass-2 {
+  background: var(--surface-2);
+  border: 1px solid var(--line-2);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+}
+
+/* Glass button. The ::before is a 1px inner highlight along the top edge. */
+@utility btn-glass {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035));
+  border: 1px solid var(--line-2);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.14),
+    0 6px 22px -10px rgba(0, 0, 0, 0.8);
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+@utility btn-accent {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 92%, white), var(--accent));
+  color: var(--accent-fg);
+  border: 1px solid color-mix(in srgb, var(--accent) 60%, white);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.45),
+    0 10px 30px -12px color-mix(in srgb, var(--accent) 70%, transparent);
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+
+.btn-glass:hover,
+.btn-accent:hover {
+  transform: translateY(-1px);
+}
+
+.btn-glass:active,
+.btn-accent:active {
+  transform: translateY(0);
+}
+
+.btn-accent:hover {
+  filter: brightness(1.08);
+}
+
+/* --------------------------------------------------------------------------
+   SCROLL REVEAL
+   -------------------------------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   MISC
+   -------------------------------------------------------------------------- */
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+
+/* Range input, used on the policy page */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: 2px solid #0b1219;
+  cursor: pointer;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: 2px solid #0b1219;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
