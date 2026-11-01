@@ -1,6 +1,6 @@
 # Preclear
 
-Pre-trade clearance for tokenized stocks: five checks that must all say yes
+Pre-trade clearance for tokenized stocks. Five checks must all say yes
 before a trade intent reaches a router.
 
 Tokenized equities settle on-chain in seconds, and nothing in that path asks
